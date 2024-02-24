@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Modelo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ModeloController extends Controller
 {
@@ -30,7 +31,12 @@ class ModeloController extends Controller
     {   
         $request->validate($this->modelo->rules(), $this->modelo->feedback());
 
-        $modelo = $this->modelo->create($request->all());
+        $path = $request->file('imagem')->store('imagens', 'public');
+
+        $modelo = $request->all();        
+        $modelo['imagem'] = $path;
+
+        $modelo = $this->modelo->create($modelo);
         return response()->json($modelo, 201);
     }
 
@@ -72,7 +78,15 @@ class ModeloController extends Controller
             $request->validate($modelo->rules(), $modelo->feedback());
         }
 
-        $modelo->update($request->all());
+        if($request->file('imagem')){
+            Storage::disk('public')->delete($modelo->imagem);
+        }
+
+        $path = $request->file('imagem')->store('imagens', 'public');
+        $novo_modelo = $request->all();        
+        $novo_modelo['imagem'] = $path;
+
+        $modelo->update($novo_modelo);
         return response()->json($modelo, 200);
     }
 
@@ -85,6 +99,10 @@ class ModeloController extends Controller
 
         if($modelo === null)
             return response()->json(['erro' => 'Modelo nao encontrado!'], 404);
+
+        if($modelo->imagem){
+            Storage::disk('public')->delete($modelo->imagem);
+        }
 
         $modelo->delete();
         return  response()->json(['msg' => 'Modelo deletado com sucesso!'], 200);
