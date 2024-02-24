@@ -20,7 +20,7 @@ class ModeloController extends Controller
     public function index()
     {
         $modelos = $this->modelo->all();
-        return $modelos;
+        return response()->json($modelos, 200);
     }
 
     /**
@@ -29,7 +29,7 @@ class ModeloController extends Controller
     public function store(Request $request)
     {   
         $modelo = $this->modelo->create($request->all());
-        return $modelo;
+        return response()->json($modelo, 201);
     }
 
     /**
@@ -40,9 +40,9 @@ class ModeloController extends Controller
         $modelo = $this->modelo->find($id);
         
         if($modelo === null)
-            return ['erro' => 'Modelo nao encontrado!'];
+            return response()->json(['erro' => 'Modelo nao encontrado!'], 404);
 
-        return $modelo;
+        return response()->json($modelo, 200);
     }
 
     /**
@@ -53,10 +53,10 @@ class ModeloController extends Controller
         $modelo = $this->modelo->find($id);
 
         if($modelo === null)
-            return ['erro' => 'Modelo nao encontrado!'];
+            return response()->json(['erro' => 'Modelo nao encontrado!'], 404);
         
         $modelo->update($request->all());
-        return $modelo;
+        return response()->json($modelo, 200);
     }
 
     /**
@@ -67,9 +67,9 @@ class ModeloController extends Controller
         $modelo = $this->modelo->find($id);
 
         if($modelo === null)
-            return ['erro' => 'Modelo nao encontrado!'];
+            return response()->json(['erro' => 'Modelo nao encontrado!'], 404);
 
         $modelo->delete();
-        return ['msg' => 'Modelo deletado com sucesso!'];
+        return  response()->json(['msg' => 'Modelo deletado com sucesso!'], 200);
     }
 }
