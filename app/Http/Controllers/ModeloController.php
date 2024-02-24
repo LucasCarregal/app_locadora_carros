@@ -40,7 +40,7 @@ class ModeloController extends Controller
         $modelo = $this->modelo->find($id);
         
         if($modelo === null)
-            return ['msg' => 'Modelo nao encontrado!'];
+            return ['erro' => 'Modelo nao encontrado!'];
 
         return $modelo;
     }
@@ -53,7 +53,7 @@ class ModeloController extends Controller
         $modelo = $this->modelo->find($id);
 
         if($modelo === null)
-            return ['msg' => 'Modelo nao encontrado!'];
+            return ['erro' => 'Modelo nao encontrado!'];
         
         $modelo->update($request->all());
         return $modelo;
@@ -67,7 +67,7 @@ class ModeloController extends Controller
         $modelo = $this->modelo->find($id);
 
         if($modelo === null)
-            return ['msg' => 'Modelo nao encontrado!'];
+            return ['erro' => 'Modelo nao encontrado!'];
 
         $modelo->delete();
         return ['msg' => 'Modelo deletado com sucesso!'];
