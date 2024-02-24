@@ -28,6 +28,8 @@ class ModeloController extends Controller
      */
     public function store(Request $request)
     {   
+        $request->validate($this->modelo->rules(), $this->modelo->feedback());
+
         $modelo = $this->modelo->create($request->all());
         return response()->json($modelo, 201);
     }
@@ -54,7 +56,22 @@ class ModeloController extends Controller
 
         if($modelo === null)
             return response()->json(['erro' => 'Modelo nao encontrado!'], 404);
-        
+
+
+        if($request->method() === 'PATCH'){
+            $regrasDinamicas = array();
+
+            foreach($modelo->rules() as $input => $regra){
+                if(array_key_exists($input, $request->all())){
+                    $regrasDinamicas[$input] = $regra;
+                }
+            }
+
+            $request->validate($regrasDinamicas, $modelo->feedback());
+        } else {
+            $request->validate($modelo->rules(), $modelo->feedback());
+        }
+
         $modelo->update($request->all());
         return response()->json($modelo, 200);
     }
