@@ -7,59 +7,69 @@ use Illuminate\Http\Request;
 
 class ModeloController extends Controller
 {
+    protected Modelo $modelo;
+
+    public function __construct(Modelo $modelo)
+    {
+        $this->modelo = $modelo;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $modelos = $this->modelo->all();
+        return $modelos;
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        //
+    {   
+        $modelo = $this->modelo->create($request->all());
+        return $modelo;
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Modelo $modelo)
+    public function show($id)
     {
-        //
-    }
+        $modelo = $this->modelo->find($id);
+        
+        if($modelo === null)
+            return ['msg' => 'Modelo nao encontrado!'];
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Modelo $modelo)
-    {
-        //
+        return $modelo;
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Modelo $modelo)
+    public function update(Request $request, $id)
     {
-        //
+        $modelo = $this->modelo->find($id);
+
+        if($modelo === null)
+            return ['msg' => 'Modelo nao encontrado!'];
+        
+        $modelo->update($request->all());
+        return $modelo;
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Modelo $modelo)
+    public function destroy($id)
     {
-        //
+        $modelo = $this->modelo->find($id);
+
+        if($modelo === null)
+            return ['msg' => 'Modelo nao encontrado!'];
+
+        $modelo->delete();
+        return ['msg' => 'Modelo deletado com sucesso!'];
     }
 }
