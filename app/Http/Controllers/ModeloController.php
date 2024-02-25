@@ -77,13 +77,13 @@ class ModeloController extends Controller
             $request->validate($modelo->rules(), $modelo->feedback());
         }
 
+        $novo_modelo = $request->all();
+
         if($request->file('imagem')){
             Storage::disk('public')->delete($modelo->imagem);
+            $path = $request->file('imagem')->store('imagens/modelos', 'public');
+            $novo_modelo['imagem'] = $path;
         }
-
-        $path = $request->file('imagem')->store('imagens', 'public');
-        $novo_modelo = $request->all();        
-        $novo_modelo['imagem'] = $path;
 
         $modelo->update($novo_modelo);
         return response()->json($modelo, 200);
