@@ -20,8 +20,7 @@ class ModeloController extends Controller
      */
     public function index()
     {
-        $modelos = $this->modelo->all();
-        return response()->json($modelos, 200);
+        return response()->json($this->modelo->all(), 200);
     }
 
     /**
@@ -31,7 +30,7 @@ class ModeloController extends Controller
     {   
         $request->validate($this->modelo->rules(), $this->modelo->feedback());
 
-        $path = $request->file('imagem')->store('imagens', 'public');
+        $path = $request->file('imagem')->store('imagens/modelos', 'public');
 
         $modelo = $request->all();        
         $modelo['imagem'] = $path;
