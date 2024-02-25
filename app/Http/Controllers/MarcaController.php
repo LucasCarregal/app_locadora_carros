@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 
 class MarcaController extends Controller
 {
-    public $marca;
+    protected $marca;
 
     public function __construct(Marca $marca) {
         $this->marca = $marca;
