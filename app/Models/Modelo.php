@@ -36,4 +36,8 @@ class Modelo extends Model
             'abs.boolean' => 'O campo abs deve ser verdadeiro ou falso!'
         ];
     }
+
+    public function marca(){
+        return $this->belongsTo('App\Models\Marca');
+    }
 }
