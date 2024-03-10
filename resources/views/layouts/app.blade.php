@@ -31,7 +31,7 @@
                     <!-- Left Side Of Navbar -->
                     @Auth
                         <navbar-component
-                            rota-marcas={{ route('marcas') }}
+                            rota-marcas={{ route('Marcas') }}
                         ></navbar-component>
                     @endAuth
 
@@ -73,6 +73,16 @@
                 </div>
             </div>
         </nav>
+        @Auth
+            @if (Route::currentRouteName() != 'home')
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{route('home')}}" class="text-decoration-none">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{Route::currentRouteName()}}</li>
+                    </ol>
+                </nav>
+            @endif
+        @endAuth
 
         <main class="py-4">
             @yield('content')
