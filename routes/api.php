@@ -35,4 +35,4 @@ Route::middleware('jwt.auth')->group(function () {
 });
 
 // Rota de autenticação - Login
-Route::post('login',   'App\Http\Controllers\AuthController@login');
+Route::post('login',   'App\Http\Controllers\AuthController@login')->name('auth.login');
