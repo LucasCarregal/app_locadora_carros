@@ -16,10 +16,12 @@ import { createApp } from "vue";
 const app = createApp({});
 
 import ExampleComponent from "./components/ExampleComponent.vue";
+import NavBar from "./components/NavBar.vue";
 import Login from "./components/login.vue";
 import Home from "./components/Home.vue";
 
 app.component("example-component", ExampleComponent);
+app.component("navbar-component", NavBar);
 app.component("login-component", Login);
 app.component("home-component", Home);
 
