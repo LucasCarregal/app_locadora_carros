@@ -30,9 +30,11 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     @Auth
-                        <navbar-component></navbar-component>
+                        <navbar-component
+                            rota-marcas={{ route('marcas') }}
+                        ></navbar-component>
                     @endAuth
-                    
+
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->

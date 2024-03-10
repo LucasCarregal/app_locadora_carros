@@ -17,13 +17,19 @@ const app = createApp({});
 
 import ExampleComponent from "./components/ExampleComponent.vue";
 import NavBar from "./components/NavBar.vue";
+import InputContainer from "./components/InputContainer.vue";
+
 import Login from "./components/login.vue";
 import Home from "./components/Home.vue";
+import Marcas from "./components/Marcas.vue";
 
 app.component("example-component", ExampleComponent);
 app.component("navbar-component", NavBar);
+app.component("InputContainer", InputContainer);
+
 app.component("login-component", Login);
 app.component("home-component", Home);
+app.component("marcas-component", Marcas);
 
 /**
  * The following block of code may be used to automatically register your
