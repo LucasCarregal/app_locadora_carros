@@ -53,7 +53,12 @@
                         <Table></Table>
                     </template>
                     <template v-slot:rodape>
-                        <button type="button" class="btn btn-primary float-end">
+                        <button
+                            type="button"
+                            class="btn btn-primary float-end"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modalMarca"
+                        >
                             Adicionar
                         </button>
                     </template>
@@ -61,5 +66,47 @@
                 <!-- fim card listagem -->
             </div>
         </div>
+        <Modal id="modalMarca" titulo="Adicionar Marca">
+            <template v-slot:conteudo>
+                <InputContainer
+                    id="novoNomeInput"
+                    titulo="Nome da Marca"
+                    id-help="nomeHelpModal"
+                    texto-ajuda="Informe o Nome da Marca"
+                >
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="novoNomeInput"
+                        aria-describedby="nomeHelpModal"
+                        placeholder="Nome"
+                    />
+                </InputContainer>
+                <InputContainer
+                    id="novoImagemInput"
+                    titulo="Imagem"
+                    id-help="imagemHelpModal"
+                    texto-ajuda="Selecione uma imagem no formato PNG"
+                >
+                    <input
+                        type="file"
+                        class="form-control"
+                        id="novoImagemInput"
+                        aria-describedby="imagemHelpModal"
+                        placeholder="Selecione a imagem da Marca"
+                    />
+                </InputContainer>
+            </template>
+            <template v-slot:rodape>
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Fechar
+                </button>
+                <button type="button" class="btn btn-primary">Salvar</button>
+            </template>
+        </Modal>
     </div>
 </template>

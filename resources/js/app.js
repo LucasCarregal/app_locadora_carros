@@ -20,6 +20,7 @@ import NavBar from "./components/NavBar.vue";
 import Card from "./components/Card.vue";
 import InputContainer from "./components/InputContainer.vue";
 import Table from "./components/Table.vue";
+import Modal from "./components/Modal.vue";
 
 import Login from "./components/login.vue";
 import Home from "./components/Home.vue";
@@ -30,6 +31,7 @@ app.component("navbar-component", NavBar);
 app.component("Card", Card);
 app.component("InputContainer", InputContainer);
 app.component("Table", Table);
+app.component("Modal", Modal);
 
 app.component("login-component", Login);
 app.component("home-component", Home);

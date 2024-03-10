@@ -1,3 +1,7 @@
+<script setup>
+const props = defineProps([]);
+</script>
+
 <template>
     <div class="container">
         <div class="row justify-content-center">
@@ -11,7 +15,3 @@
         </div>
     </div>
 </template>
-
-<script setup>
-const props = defineProps([]);
-</script>
