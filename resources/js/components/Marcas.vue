@@ -2,9 +2,9 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">Busca de Marcas</div>
-                    <div class="card-body">
+                <!-- inicio card busca -->
+                <Card titulo="Busca de Marcas">
+                    <template v-slot:conteudo>
                         <div class="row">
                             <div class="mb-3 col">
                                 <InputContainer
@@ -39,13 +39,26 @@
                                 </InputContainer>
                             </div>
                         </div>
-                    </div>
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-primary float-end">
-                            Pesquisar
+                    </template>
+                    <template v-slot:rodape>
+                        <button type="button" class="btn btn-primary float-end">
+                            Adicionar
                         </button>
-                    </div>
-                </div>
+                    </template>
+                </Card>
+                <!-- fim card busca -->
+                <!-- inicio card listagem -->
+                <Card titulo="Relação de Marcas">
+                    <template v-slot:conteudo>
+                        <Table></Table>
+                    </template>
+                    <template v-slot:rodape>
+                        <button type="button" class="btn btn-primary float-end">
+                            Adicionar
+                        </button>
+                    </template>
+                </Card>
+                <!-- fim card listagem -->
             </div>
         </div>
     </div>

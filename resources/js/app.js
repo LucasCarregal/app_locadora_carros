@@ -17,7 +17,9 @@ const app = createApp({});
 
 import ExampleComponent from "./components/ExampleComponent.vue";
 import NavBar from "./components/NavBar.vue";
+import Card from "./components/Card.vue";
 import InputContainer from "./components/InputContainer.vue";
+import Table from "./components/Table.vue";
 
 import Login from "./components/login.vue";
 import Home from "./components/Home.vue";
@@ -25,7 +27,9 @@ import Marcas from "./components/Marcas.vue";
 
 app.component("example-component", ExampleComponent);
 app.component("navbar-component", NavBar);
+app.component("Card", Card);
 app.component("InputContainer", InputContainer);
+app.component("Table", Table);
 
 app.component("login-component", Login);
 app.component("home-component", Home);
