@@ -1,3 +1,88 @@
+<script setup>
+import { ref, onMounted } from "vue";
+
+const urlBase = "http://localhost:8000/api/v1/marca";
+
+const token =
+    "Bearer " +
+    document.cookie
+        .split(";")
+        .find((i) => i.startsWith("token"))
+        .split("=")[1];
+
+onMounted(carregarList());
+
+var nomeMarca = ref(null);
+var arquivoImagem = ref(null);
+var statusTransacao = ref("");
+var msgTransacao = ref("");
+var marcas = ref([]);
+
+function limparAlertas(time) {
+    setTimeout(() => {
+        statusTransacao.value = "";
+        msgTransacao.value = "Erro!";
+    }, time);
+}
+
+function carregarImagem(e) {
+    arquivoImagem = e.target.files;
+}
+
+function carregarList() {
+    let config = {
+        headers: {
+            Accept: "aplication/json",
+            Authorization: token,
+        },
+    };
+
+    axios
+        .get(urlBase, config)
+        .then((resp) => {
+            marcas.value = resp.data.map((e) => {
+                return { id: e.id, nome: e.nome, imagem: e.imagem };
+            });
+        })
+        .catch((errors) => {
+            console.log(errors);
+        });
+}
+
+function salvar() {
+    let formData = new FormData();
+    formData.append("nome", nomeMarca.value);
+    formData.append("imagem", arquivoImagem[0]);
+
+    let config = {
+        headers: {
+            "Content-Type": "multipart/form-data",
+            Accept: "aplication/json",
+            Authorization: token,
+        },
+    };
+
+    axios
+        .post(urlBase, formData, config)
+        .then((resp) => {
+            statusTransacao.value = "success";
+            msgTransacao.value =
+                "Marca " + resp.data.nome + " adicionada com sucesso!";
+            marcas.value.push({
+                id: resp.data.id,
+                nome: resp.data.nome,
+                imagem: resp.data.imagem,
+            });
+            limparAlertas(3000);
+        })
+        .catch((errors) => {
+            statusTransacao.value = "danger";
+            msgTransacao.value = errors.response.data.message;
+            limparAlertas(3000);
+        });
+}
+</script>
+
 <template>
     <div class="container">
         <div class="row justify-content-center">
@@ -50,7 +135,10 @@
                 <!-- inicio card listagem -->
                 <Card titulo="Relação de Marcas">
                     <template v-slot:conteudo>
-                        <Table></Table>
+                        <Table
+                            :cabecalho="['ID', 'Nome', 'Logo']"
+                            :dados="marcas"
+                        ></Table>
                     </template>
                     <template v-slot:rodape>
                         <button
@@ -67,6 +155,13 @@
             </div>
         </div>
         <Modal id="modalMarca" titulo="Adicionar Marca">
+            <template v-slot:alertas>
+                <Alert
+                    :tipo="statusTransacao"
+                    :texto-aleta="msgTransacao"
+                    v-if="statusTransacao != ''"
+                />
+            </template>
             <template v-slot:conteudo>
                 <InputContainer
                     id="novoNomeInput"
@@ -80,6 +175,7 @@
                         id="novoNomeInput"
                         aria-describedby="nomeHelpModal"
                         placeholder="Nome"
+                        v-model="nomeMarca"
                     />
                 </InputContainer>
                 <InputContainer
@@ -94,6 +190,7 @@
                         id="novoImagemInput"
                         aria-describedby="imagemHelpModal"
                         placeholder="Selecione a imagem da Marca"
+                        @change="carregarImagem($event)"
                     />
                 </InputContainer>
             </template>
@@ -105,7 +202,9 @@
                 >
                     Fechar
                 </button>
-                <button type="button" class="btn btn-primary">Salvar</button>
+                <button type="button" class="btn btn-primary" @click="salvar()">
+                    Salvar
+                </button>
             </template>
         </Modal>
     </div>

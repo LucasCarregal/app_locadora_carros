@@ -1,3 +1,31 @@
+<script setup>
+import { ref } from "vue";
+
+const props = defineProps(["csrf_token", "url_login"]);
+
+const email = ref(null);
+const password = ref(null);
+
+function login(e) {
+    const config = {
+        method: "post",
+        body: new URLSearchParams({
+            email: email.value,
+            password: password.value,
+        }),
+    };
+
+    fetch(props.url_login, config)
+        .then((resp) => resp.json())
+        .then((data) => {
+            if (data.token) {
+                document.cookie = "token =" + data.token + "; SameSite=Lax";
+            }
+            e.target.submit(); // envia o form de autenticação por sessão
+        });
+}
+</script>
+
 <template>
     <div class="container">
         <div class="row justify-content-center">
@@ -8,7 +36,7 @@
                         <form method="POST" @submit.prevent="login($event)">
                             <input
                                 type="hidden"
-                                :value="csrf_token"
+                                :value="props.csrf_token"
                                 name="_token"
                             />
                             <div class="row mb-3">
@@ -87,30 +115,3 @@
         </div>
     </div>
 </template>
-
-<script>
-function login(e) {
-    const url = this.url_login;
-    const config = {
-        method: "post",
-        body: new URLSearchParams({
-            email: this.email,
-            password: this.password,
-        }),
-    };
-
-    fetch(url, config)
-        .then((resp) => resp.json())
-        .then((data) => {
-            if (data.token) {
-                document.cookie = "token = data.token; SameSite=Lax";
-            }
-            e.target.submit(); // envia o form de autenticação por sessão
-        });
-}
-
-export default {
-    props: ["csrf_token", "url_login"],
-    methods: { login },
-};
-</script>
