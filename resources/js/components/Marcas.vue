@@ -40,9 +40,7 @@ function carregarList() {
     axios
         .get(urlBase, config)
         .then((resp) => {
-            marcas.value = resp.data.map((e) => {
-                return { id: e.id, nome: e.nome, imagem: e.imagem };
-            });
+            marcas.value = resp.data;
         })
         .catch((errors) => {
             console.log(errors);
@@ -68,11 +66,7 @@ function salvar() {
             statusTransacao.value = "success";
             msgTransacao.value =
                 "Marca " + resp.data.nome + " adicionada com sucesso!";
-            marcas.value.push({
-                id: resp.data.id,
-                nome: resp.data.nome,
-                imagem: resp.data.imagem,
-            });
+            marcas.value.push(resp.data);
             limparAlertas(3000);
         })
         .catch((errors) => {
@@ -136,9 +130,17 @@ function salvar() {
                 <Card titulo="Relação de Marcas">
                     <template v-slot:conteudo>
                         <Table
-                            :cabecalho="['ID', 'Nome', 'Logo']"
+                            :cabecalho="{
+                                id: { titulo: 'ID', tipo: 'text' },
+                                nome: { titulo: 'Nome', tipo: 'text' },
+                                imagem: { titulo: 'Logo', tipo: 'imagem' },
+                                created_at: {
+                                    titulo: 'Data Criação',
+                                    tipo: 'data',
+                                },
+                            }"
                             :dados="marcas"
-                        ></Table>
+                        />
                     </template>
                     <template v-slot:rodape>
                         <button
